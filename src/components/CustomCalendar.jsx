@@ -1,19 +1,32 @@
 import React from 'react';
 import { dayjs, daysOfWeek, months } from '../util';
 
-export default function CustomCalendar() {
-  const j = new Date();
-  console.log(dayjs().startOf('M').day());
-  console.log(dayjs().daysInMonth());
-  const year = dayjs().year();
-  const month = months[dayjs().month() + 1];
+export default function CustomCalendar({
+  currentPointer,
+  setCurrentPointer,
+  currentPage,
+}) {
+  const { year, month } = currentPage;
+
+  const TOTAL_CELLS = 42;
 
   const daysOfMonthArr = [];
-  for (let i = 0; i < dayjs().startOf('M').day(); i++) {
+  for (
+    let i = 0;
+    i <
+    dayjs(`${year}-${month + 1}-01`)
+      .startOf('M')
+      .day();
+    i++
+  ) {
     daysOfMonthArr.push(null);
   }
-  for (let i = 1; i <= dayjs().daysInMonth(); i++) {
+  for (let i = 1; i <= dayjs(`${year}-${month + 1}-01`).daysInMonth(); i++) {
     daysOfMonthArr.push(i);
+  }
+
+  for (let i = daysOfMonthArr.length; i < TOTAL_CELLS; i++) {
+    daysOfMonthArr.push(null);
   }
 
   const cellStyle = {
@@ -37,10 +50,13 @@ export default function CustomCalendar() {
         paddingTop: '8px',
       }}
     >
+      {/* headers of month & year  */}
       <div style={{ display: 'inline-block' }}>
-        {month} {year}
+        {months[month]} {year}
       </div>
-      <div style={{ display: 'flex' }}>
+
+      {/* Abbrs of days of week  */}
+      <div style={{ display: 'flex', borderright: '1px solid grey' }}>
         {daysOfWeek.map((day, index) => {
           return (
             <div key={index} style={cellStyle}>
@@ -50,8 +66,34 @@ export default function CustomCalendar() {
         })}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)' }}>
+      {/* grid for days in the month  */}
+      <div
+        style={{
+          display: 'grid',
+          borderRight: '1px solid grey',
+          gridTemplateColumns: 'repeat(7,1fr)',
+        }}
+      >
         {daysOfMonthArr.map((day, i) => {
+          const currentCell = {
+            year: year,
+            month: month,
+            day: day,
+          };
+          if (isMatched(currentCell, currentPointer)) {
+            return (
+              <div
+                key={i}
+                style={{
+                  ...cellStyle,
+                  backgroundColor: 'blue',
+                  color: 'white',
+                }}
+              >
+                {day}
+              </div>
+            );
+          }
           return (
             <div key={i} style={cellStyle}>
               {day}
@@ -62,3 +104,11 @@ export default function CustomCalendar() {
     </div>
   );
 }
+
+const isMatched = (currentCell, currentPointer) => {
+  return (
+    currentCell.year === currentPointer.year &&
+    currentCell.month === currentPointer.month &&
+    currentCell.day === currentPointer.day
+  );
+};

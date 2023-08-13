@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CustomCalendar from './CustomCalendar';
+import { dayjs } from '../util';
 
 export default function CustomCalendarContainer({ numOfCalendars, styles }) {
+  const [currentPointer, setCurrentPointer] = useState({
+    year: dayjs().year(),
+    month: dayjs().month(),
+    day: dayjs().get('D'),
+  });
+
+  // console.log(dayjs('2023-08-01').startOf('M').daysInMonth());
+
   return (
     <div
       style={{ border: '1px solid red', position: 'relative', display: 'flex' }}
@@ -14,8 +23,30 @@ export default function CustomCalendarContainer({ numOfCalendars, styles }) {
       >
         {'>'}
       </button>
-      <CustomCalendar />
-      <CustomCalendar />
+
+      {Array.from({ length: numOfCalendars }, (_, index) => {
+        const currentPage = {
+          year: currentPointer.year,
+          month: currentPointer.month + index,
+        };
+
+        // we are only dealing with normal cases, not some edge cases, such as
+        // when currentPage.month is 34, or even bigger, because we have not applied
+        // limitation on the `numsOfCalendars`.
+        if (currentPage.month > 11) {
+          currentPage.month = currentPage.month - 12;
+          currentPage.year = currentPage.year + 1;
+        }
+
+        return (
+          <CustomCalendar
+            key={index}
+            currentPointer={currentPointer}
+            setCurrentPointer={setCurrentPointer}
+            currentPage={currentPage}
+          />
+        );
+      })}
     </div>
   );
 }

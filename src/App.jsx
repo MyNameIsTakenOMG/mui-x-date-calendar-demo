@@ -44,7 +44,7 @@ function App() {
       >
         <h3>my custom calendar</h3>
 
-        <CustomCalendarContainer />
+        <CustomCalendarContainer numOfCalendars={3} styles={null} />
       </Paper>
 
       <Paper
