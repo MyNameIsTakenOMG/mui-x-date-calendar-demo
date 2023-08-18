@@ -79,7 +79,12 @@ export default function CustomCalendar({
             );
           }
           return (
-            <div key={i} className={`${styles.cellStyles}`}>
+            <div
+              key={i}
+              className={
+                day !== null ? `${styles.cellStyles}` : `${styles.blank}`
+              }
+            >
               {day}
             </div>
           );
