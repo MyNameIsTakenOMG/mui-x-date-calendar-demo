@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { dayjs, daysOfWeek, months } from '../util';
+import * as styles from './CustomCalendar.module.css';
+
+const TOTAL_CELLS = 42;
+const daysOfWeekStyles = {
+  height: '40px',
+  width: '36px',
+  padding: '0 2px',
+  display: 'flex',
+  borderRadius: '50%',
+  justifyContent: 'center',
+  alignItems: 'center',
+  textAlign: 'center',
+  fontSize: '0.75rem',
+};
 
 export default function CustomCalendar({
   currentPointer,
@@ -8,37 +22,7 @@ export default function CustomCalendar({
 }) {
   const { year, month } = currentPage;
 
-  const TOTAL_CELLS = 42;
-
-  const daysOfMonthArr = [];
-  for (
-    let i = 0;
-    i <
-    dayjs(`${year}-${month + 1}-01`)
-      .startOf('M')
-      .day();
-    i++
-  ) {
-    daysOfMonthArr.push(null);
-  }
-  for (let i = 1; i <= dayjs(`${year}-${month + 1}-01`).daysInMonth(); i++) {
-    daysOfMonthArr.push(i);
-  }
-
-  for (let i = daysOfMonthArr.length; i < TOTAL_CELLS; i++) {
-    daysOfMonthArr.push(null);
-  }
-
-  const cellStyle = {
-    height: '40px',
-    width: '36px',
-    margin: '0 2px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    fontSize: '0.75rem',
-  };
+  const daysOfMonthArr = generateDaysOfMonthArray(year, month);
 
   return (
     <div
@@ -59,7 +43,7 @@ export default function CustomCalendar({
       <div style={{ display: 'flex', borderright: '1px solid grey' }}>
         {daysOfWeek.map((day, index) => {
           return (
-            <div key={index} style={cellStyle}>
+            <div key={index} style={daysOfWeekStyles}>
               {day}
             </div>
           );
@@ -84,8 +68,8 @@ export default function CustomCalendar({
             return (
               <div
                 key={i}
+                className={styles.cellStyles}
                 style={{
-                  ...cellStyle,
                   backgroundColor: 'blue',
                   color: 'white',
                 }}
@@ -95,7 +79,7 @@ export default function CustomCalendar({
             );
           }
           return (
-            <div key={i} style={cellStyle}>
+            <div key={i} className={`${styles.cellStyles}`}>
               {day}
             </div>
           );
@@ -111,4 +95,26 @@ const isMatched = (currentCell, currentPointer) => {
     currentCell.month === currentPointer.month &&
     currentCell.day === currentPointer.day
   );
+};
+
+const generateDaysOfMonthArray = (year, month) => {
+  const arr = [];
+  for (
+    let i = 0;
+    i <
+    dayjs(`${year}-${month + 1}-01`)
+      .startOf('M')
+      .day();
+    i++
+  ) {
+    arr.push(null);
+  }
+  for (let i = 1; i <= dayjs(`${year}-${month + 1}-01`).daysInMonth(); i++) {
+    arr.push(i);
+  }
+
+  for (let i = arr.length; i < TOTAL_CELLS; i++) {
+    arr.push(null);
+  }
+  return arr;
 };

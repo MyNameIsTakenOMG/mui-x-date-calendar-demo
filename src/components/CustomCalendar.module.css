@@ -1,0 +1,16 @@
+.cellStyles {
+  height: 40px;
+  width: 36px;
+  padding: 0 2px;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.cellStyles:hover{
+  outline: 1px solid grey;
+}

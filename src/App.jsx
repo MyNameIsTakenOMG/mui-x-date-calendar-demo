@@ -14,10 +14,15 @@ import CustomCalendarContainer from './components/CustomCalendarContainer';
 
 function App() {
   const [muiValue, setMuiValue] = useState('mui-flex-row');
+  const [customValue, setCustomValue] = useState('custom-flex-row');
 
   const handleMuiCalendarChange = (e) => {
-    setMuiValue(e.target.name);
-    console.log(e.target.name);
+    setMuiValue(e.target.value);
+    // console.log(e.target.value);
+  };
+  const handleCustomCalendarChange = (e) => {
+    setCustomValue(e.target.value);
+    // console.log(e.target.value);
   };
 
   return (
@@ -32,6 +37,7 @@ function App() {
         rowGap: '1rem',
       }}
     >
+      {/* my custom calendar */}
       <Paper
         elevation={3}
         sx={{
@@ -44,9 +50,43 @@ function App() {
       >
         <h3>my custom calendar</h3>
 
-        <CustomCalendarContainer numOfCalendars={3} styles={null} />
+        <FormControl
+          sx={{
+            '& .MuiFormGroup-root': { flexFlow: 'row', columnGap: '1rem' },
+          }}
+        >
+          <FormLabel id="demo-controlled-radio-buttons-group"></FormLabel>
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={customValue}
+            onChange={handleCustomCalendarChange}
+          >
+            <FormControlLabel
+              name="custom-flex-row"
+              value="custom-flex-row"
+              control={<Radio />}
+              label="Flex:row"
+            />
+            <FormControlLabel
+              name="custom-flex-column"
+              value="custom-flex-column"
+              control={<Radio />}
+              label="Flex:column"
+            />
+            <FormControlLabel
+              name="custom-grid"
+              value="custom-grid"
+              control={<Radio />}
+              label="Grid"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <CustomCalendarContainer numOfCalendars={3} styles={customValue} />
       </Paper>
 
+      {/* mui x calendar  */}
       <Paper
         elevation={3}
         sx={{
