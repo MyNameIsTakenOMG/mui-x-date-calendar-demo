@@ -7,7 +7,7 @@ const styling = {
   'custom-flex-column': { display: 'flex', flexFlow: 'column' },
   'custom-grid': {
     display: 'grid',
-    width: '100%',
+    width: '50%',
     height: '100%',
     gridTemplateColumns: '1fr 1fr',
   },
