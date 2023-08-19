@@ -24,6 +24,16 @@ export default function CustomCalendar({
 
   const daysOfMonthArr = generateDaysOfMonthArray(year, month);
 
+  const handleClick = (day) => (e) => {
+    console.log('year, month, day: ', year, month, day);
+    const newPointer = {
+      year: year,
+      month: month,
+      day: day,
+    };
+    setCurrentPointer(newPointer);
+  };
+
   return (
     <div
       style={{
@@ -40,7 +50,7 @@ export default function CustomCalendar({
       </div>
 
       {/* Abbrs of days of week  */}
-      <div style={{ display: 'flex', borderright: '1px solid grey' }}>
+      <div style={{ display: 'flex' }}>
         {daysOfWeek.map((day, index) => {
           return (
             <div key={index} style={daysOfWeekStyles}>
@@ -54,7 +64,6 @@ export default function CustomCalendar({
       <div
         style={{
           display: 'grid',
-          borderRight: '1px solid grey',
           gridTemplateColumns: 'repeat(7,1fr)',
         }}
       >
@@ -80,6 +89,7 @@ export default function CustomCalendar({
           }
           return (
             <div
+              onClick={day !== null ? handleClick(day) : undefined}
               key={i}
               className={
                 day !== null ? `${styles.cellStyles}` : `${styles.blank}`

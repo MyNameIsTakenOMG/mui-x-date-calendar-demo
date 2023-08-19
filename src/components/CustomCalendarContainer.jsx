@@ -51,7 +51,7 @@ export default function CustomCalendarContainer({ numOfCalendars, styles }) {
         />
       );
     });
-  }, [basePosition.month]);
+  }, [basePosition.month, currentPointer]);
 
   const goBackward = () => {
     if (basePosition.month - numOfCalendars < 0) {

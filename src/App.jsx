@@ -94,6 +94,7 @@ function App() {
           display: 'flex',
           flexFlow: 'column nowrap',
           justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <h3>Mui Date Range Calendar</h3>
